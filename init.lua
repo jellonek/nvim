@@ -1,9 +1,9 @@
 require("core")
 require("core/lazy")
 
-require("lazy").setup({
+require("lazy").setup(
   {
-    import  = "plugins" },
+    import = "plugins",
   },
   {
     install = {
