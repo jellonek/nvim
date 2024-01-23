@@ -8,6 +8,7 @@ return {
     { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
+    { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>" },
     { "<leader>qf", "<cmd>Telescope quickfix<cr>" },
   }
 }
