@@ -7,10 +7,24 @@ return {
   config = function()
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
     local lspconfig = require("lspconfig")
-    local servers = { 'clangd', 'rust_analyzer', 'pyright', 'gopls' }
+    local settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT'
+        },
+        workspace = {
+          checkThirdParty = false,
+          library = {
+            vim.env.VIMRUNTIME
+          }
+        }
+      }
+    }
+    local servers = { 'clangd', 'rust_analyzer', 'pyright', 'gopls', 'lua_ls' }
     for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
         capabilities = capabilities,
+        settings = settings,
       }
     end
 
