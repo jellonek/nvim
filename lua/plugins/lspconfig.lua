@@ -20,7 +20,10 @@ return {
         }
       }
     }
-    local servers = { 'bashls', 'clangd', 'rust_analyzer', 'pyright', 'gopls', 'lua_ls' }
+    local servers = {
+      'bashls', 'dockerls', 'clangd', 'rust_analyzer',
+      'pyright', 'gopls', 'lua_ls'
+    }
     for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
         capabilities = capabilities,
