@@ -20,10 +20,34 @@ return {
         }
       }
     }
+
     local servers = {
-      'bashls', 'dockerls', 'clangd', 'rust_analyzer',
-      'pyright', 'gopls', 'lua_ls'
+      -- bash/sh. requires npm installed bash-language-server
+      'bashls',
+
+      -- c/cpp/objc/objcpp/cuda/proto. requires clang package which should
+      -- be providing clangd binary
+      'clangd',
+
+      -- dlang. requires binary from https://github.com/Pure-D/serve-d/releases
+      'serve_d',
+
+      -- dockerfile. requires npm installed docker-langserver
+      'dockerls',
+
+      -- rust. requires normal rust installation
+      'rust_analyzer',
+
+      -- python. requires npm installed pyright
+      'pyright',
+
+      -- golang. requires go get golang.org/x/tools/gopls
+      'gopls',
+
+      -- lua. requires https://github.com/luals/lua-language-server installed in $PATH
+      'lua_ls',
     }
+
     for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
         capabilities = capabilities,
