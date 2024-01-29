@@ -4,6 +4,7 @@ return {
   -- Optional dependencies
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
-    {"-", "<CMD>Oil<CR>", { desc = "Open parent directory" } },
+    {"-", "<cmd>Oil<cr>", { desc = "Open parent directory" } },
+    {"<leader>o", "<cmd>lua require('oil').toggle_float()<cr>", { desc = "Open float window" } },
   },
 }
