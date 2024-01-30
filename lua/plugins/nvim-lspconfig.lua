@@ -3,10 +3,17 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "hrsh7th/nvim-cmp",
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
   },
 
   config = function()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    require("mason").setup()
+    require("mason-lspconfig").setup()
+
+
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local default_capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
     local lspconfig = require("lspconfig")
     local settings = {
       Lua = {
@@ -50,10 +57,17 @@ return {
       'lua_ls',
     }
 
+    local on_attach = function(_, buffer_number)
+      vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
+        vim.lsp.buf.format()
+      end, { desc = "LSP: Format current buffer content with LSP" })
+    end
+
     for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
-        capabilities = capabilities,
+        capabilities = default_capabilities,
         settings = settings,
+        on_attach = on_attach,
       }
     end
 
