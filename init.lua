@@ -1,5 +1,5 @@
 require("core")
-require("core/lazy")
+require("core/lazy-bootstrap")
 
 require("lazy").setup(
   {
