@@ -18,7 +18,8 @@ return {
           library = {
             vim.env.VIMRUNTIME
           }
-        }
+        },
+        telemetry = false
       }
     }
 
