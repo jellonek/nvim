@@ -13,7 +13,7 @@ return {
 
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local default_capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities(capabilities))
     local lspconfig = require("lspconfig")
     local settings = {
       Lua = {
@@ -66,7 +66,7 @@ return {
 
     for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
-        capabilities = default_capabilities,
+        capabilities = capabilities,
         settings = settings,
         on_attach = on_attach,
       }
@@ -92,27 +92,27 @@ return {
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-        local map = function(mode, keys, func, desc)
+        local mmap = function(mode, keys, func, desc)
           keymap.set(mode, keys, func, { buffer = ev.buf, desc = 'LSP: ' .. desc })
         end
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        map('n', 'gD', buf.declaration, 'Go to symbol declaration')
-        map('n', 'gd', buf.definition, 'Go to symbol definition')
-        map('n', 'K', buf.hover, 'Displays hover information in a floating window')
-        map('n', 'gi', buf.implementation, 'Go to symbol implementation')
-        map('n', '<C-k>', buf.signature_help, 'Show signature')
-        map('n', '<leader>wa', buf.add_workspace_folder, 'Add curdir to list of workspaces')
-        map('n', '<leader>wr', buf.remove_workspace_folder, 'Remove curdir from list of workspaces')
-        map('n', '<leader>wl', function()
+        mmap('n', 'gD', buf.declaration, 'Go to symbol declaration')
+        mmap('n', 'gd', buf.definition, 'Go to symbol definition')
+        mmap('n', 'K', buf.hover, 'Displays hover information in a floating window')
+        mmap('n', 'gi', buf.implementation, 'Go to symbol implementation')
+        mmap('n', '<C-k>', buf.signature_help, 'Show signature')
+        mmap('n', '<leader>wa', buf.add_workspace_folder, 'Add curdir to list of workspaces')
+        mmap('n', '<leader>wr', buf.remove_workspace_folder, 'Remove curdir from list of workspaces')
+        mmap('n', '<leader>wl', function()
           print(vim.inspect(buf.list_workspace_folders()))
         end, 'Show list of workspaces')
-        map('n', '<leader>D', buf.type_definition, 'Show type definition')
-        map('n', '<leader>rn', buf.rename, 'Rename symbol')
-        map({ 'n', 'v' }, '<leader>ca', buf.code_action, 'Code action')
-        map('n', 'gr', buf.references, 'Show symbol references')
-        map('n', '<leader>f', function()
+        mmap('n', '<leader>D', buf.type_definition, 'Show type definition')
+        mmap('n', '<leader>rn', buf.rename, 'Rename symbol')
+        mmap({ 'n', 'v' }, '<leader>ca', buf.code_action, 'Code action')
+        mmap('n', 'gr', buf.references, 'Show symbol references')
+        mmap('n', '<leader>f', function()
           buf.format { async = true }
         end, 'Format buffer')
       end,
