@@ -9,12 +9,13 @@ return {
   },
 
   keys = {
-    { "<leader>ff", "<cmd>Telescope find_files<cr>" },
-    { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
-    { "<leader>fb", "<cmd>Telescope buffers<cr>" },
-    { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
-    { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>" },
-    { "<leader>qf", "<cmd>Telescope quickfix<cr>" },
+    { "<leader>ff", "<cmd>Telescope find_files<cr>",           desc = 'Telescope find files' },
+    { "<leader>fg", "<cmd>Telescope live_grep<cr>",            desc = 'Telescope live grep' },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>",              desc = 'Telescope buffers' },
+    { "<leader>fh", "<cmd>Telescope help_tags<cr>",            desc = 'Telescope help tags' },
+    { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", desc = 'Telescope lists LSP document symbols in the current buffer' },
+    { "<leader>qf", "<cmd>Telescope quickfix<cr>",             desc = 'Telescope show quickfix list' },
+    { "<leader>fk", "<cmd>Telescope keymaps<cr>",              desc = 'Telescope keymaps' },
   },
 
   config = function()

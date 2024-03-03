@@ -72,10 +72,10 @@ return {
     end
 
     local keymap = vim.keymap
-    keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-    keymap.set('n', '[d', vim.diagnostic.goto_prev)
-    keymap.set('n', ']d', vim.diagnostic.goto_next)
-    keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+    keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open diagnostics float' })
+    keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostics go to next' })
+    keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostics go to previous' })
+    keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Add buffer diagnostics to the location list' })
 
     -- Use LspAttach autocommand to only map the following keys
     -- after the language server attaches to the current buffer
@@ -89,24 +89,26 @@ return {
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf }
-        keymap.set('n', 'gD', buf.declaration, opts)
-        keymap.set('n', 'gd', buf.definition, opts)
-        keymap.set('n', 'K', buf.hover, opts)
-        keymap.set('n', 'gi', buf.implementation, opts)
-        keymap.set('n', '<C-k>', buf.signature_help, opts)
-        keymap.set('n', '<leader>wa', buf.add_workspace_folder, opts)
-        keymap.set('n', '<leader>wr', buf.remove_workspace_folder, opts)
+        keymap.set('n', 'gD', buf.declaration, { desc = 'Go to symbol declaration', buffer = ev.buf })
+        keymap.set('n', 'gd', buf.definition, { desc = 'Go to symbol definition', buffer = ev.buf })
+        keymap.set('n', 'K', buf.hover,
+          { desc = 'Displays hover information in a floating window', buffer = ev.buf })
+        keymap.set('n', 'gi', buf.implementation, { desc = 'Go to symbol implementation', buffer = ev.buf })
+        keymap.set('n', '<C-k>', buf.signature_help, { desc = 'Show signature', buffer = ev.buf })
+        keymap.set('n', '<leader>wa', buf.add_workspace_folder,
+          { desc = 'Add curdir to list of workspaces', buffer = ev.buf })
+        keymap.set('n', '<leader>wr', buf.remove_workspace_folder,
+          { desc = 'Remove curdir from list of workspaces', buffer = ev.buf })
         keymap.set('n', '<leader>wl', function()
           print(vim.inspect(buf.list_workspace_folders()))
-        end, opts)
-        keymap.set('n', '<leader>D', buf.type_definition, opts)
-        keymap.set('n', '<leader>rn', buf.rename, opts)
-        keymap.set({ 'n', 'v' }, '<leader>ca', buf.code_action, opts)
-        keymap.set('n', 'gr', buf.references, opts)
+        end, { desc = 'Show list of workspaces', buffer = ev.buf })
+        keymap.set('n', '<leader>D', buf.type_definition, { desc = 'Show type definition', buffer = ev.buf })
+        keymap.set('n', '<leader>rn', buf.rename, { desc = 'Rename symbol', buffer = ev.buf })
+        keymap.set({ 'n', 'v' }, '<leader>ca', buf.code_action, { desc = 'Code action', buffer = ev.buf })
+        keymap.set('n', 'gr', buf.references, { desc = 'Show symbol references', buffer = ev.buf })
         keymap.set('n', '<leader>f', function()
           buf.format { async = true }
-        end, opts)
+        end, { desc = '', buffer = ev.buf })
       end,
     })
   end

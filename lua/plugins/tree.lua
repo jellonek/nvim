@@ -17,7 +17,7 @@ return {
     })
 
     local keymap = vim.keymap
-    keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>")
-    keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>")
+    keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = 'Toggle file browser' })
+    keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = 'Refresh file browser' })
   end
 }
