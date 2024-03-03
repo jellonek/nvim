@@ -5,16 +5,13 @@ return {
     "hrsh7th/nvim-cmp",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    { "j-hui/fidget.nvim", opts = {} },
   },
 
   config = function()
-    require("mason").setup()
-    require("mason-lspconfig").setup()
-
-
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities(capabilities))
-    local lspconfig = require("lspconfig")
 
     local servers = {
       -- bash/sh. requires npm installed bash-language-server
@@ -41,20 +38,35 @@ return {
 
       -- lua. requires https://github.com/luals/lua-language-server installed in $PATH
       lua_ls = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT'
-          },
-          workspace = {
-            checkThirdParty = false,
-            library = {
-              vim.env.VIMRUNTIME
-            }
-          },
-          telemetry = false
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT'
+            },
+            diagnostics = {
+              globals = { "vim" },
+            },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                unpack(vim.api.nvim_get_runtime_file('', true)),
+              }
+            },
+            completion = {
+              callSnippet = 'Replace',
+            },
+            telemetry = false
+          }
         }
       }
     }
+    require('mason').setup()
+
+    local ensure_installed = vim.tbl_keys(servers or {})
+    vim.list_extend(ensure_installed, {
+      'stylua',
+    })
+    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     local api = vim.api
     local on_attach = function(_, buffer_number)
@@ -63,13 +75,16 @@ return {
       end, { desc = "LSP: Format current buffer content with LSP" })
     end
 
-    for lsp, settings in ipairs(servers) do
-      lspconfig[lsp].setup {
-        capabilities = capabilities,
-        settings = settings,
-        on_attach = on_attach,
+    require('mason-lspconfig').setup {
+      handlers = {
+        function(server_name)
+          local server = servers[server_name] or {}
+          server.on_attach = on_attach
+          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          require('lspconfig')[server_name].setup(server)
+        end
       }
-    end
+    }
 
     local keymap = vim.keymap
 
