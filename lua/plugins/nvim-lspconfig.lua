@@ -44,7 +44,8 @@ return {
               version = 'LuaJIT'
             },
             diagnostics = {
-              globals = { "vim" },
+              globals = { 'vim' },
+              disable = { 'missing-fields' },
             },
             workspace = {
               checkThirdParty = false,
