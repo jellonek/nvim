@@ -21,6 +21,7 @@ return {
 
   config = function()
     local t = require('telescope')
+    local builtin = require('telescope.builtin')
     t.setup {
       extensions = {
         fzf = {
@@ -31,6 +32,9 @@ return {
       }
     }
     t.load_extension('fzf')
+    vim.keymap.set('n', '<leader>fv', function()
+      builtin.find_files { cwd = vim.fn.stdpath 'config' }
+    end, { desc = 'Find file in neovim configration' })
   end
 
 }
