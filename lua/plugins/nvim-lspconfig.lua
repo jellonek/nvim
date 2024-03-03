@@ -15,46 +15,45 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities(capabilities))
     local lspconfig = require("lspconfig")
-    local settings = {
-      Lua = {
-        runtime = {
-          version = 'LuaJIT'
-        },
-        workspace = {
-          checkThirdParty = false,
-          library = {
-            vim.env.VIMRUNTIME
-          }
-        },
-        telemetry = false
-      }
-    }
 
     local servers = {
       -- bash/sh. requires npm installed bash-language-server
-      'bashls',
+      bashls = {},
 
       -- c/cpp/objc/objcpp/cuda/proto. requires clang package which should
       -- be providing clangd binary
-      'clangd',
+      clangd = {},
 
       -- dlang. requires binary from https://github.com/Pure-D/serve-d/releases
-      'serve_d',
+      serve_d = {},
 
       -- dockerfile. requires npm installed docker-langserver
-      'dockerls',
+      dockerls = {},
 
       -- rust. requires normal rust installation
-      'rust_analyzer',
+      rust_analyzer = {},
 
       -- python. requires npm installed pyright
-      'pyright',
+      pyright = {},
 
       -- golang. requires go get golang.org/x/tools/gopls
-      'gopls',
+      gopls = {},
 
       -- lua. requires https://github.com/luals/lua-language-server installed in $PATH
-      'lua_ls',
+      lua_ls = {
+        Lua = {
+          runtime = {
+            version = 'LuaJIT'
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME
+            }
+          },
+          telemetry = false
+        }
+      }
     }
 
     local api = vim.api
@@ -64,7 +63,7 @@ return {
       end, { desc = "LSP: Format current buffer content with LSP" })
     end
 
-    for _, lsp in ipairs(servers) do
+    for lsp, settings in ipairs(servers) do
       lspconfig[lsp].setup {
         capabilities = capabilities,
         settings = settings,
