@@ -19,6 +19,8 @@ keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboa
 -- buffers swapping
 keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+keymap.set("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+keymap.set("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- quiting/saving
 keymap.set("n", "<leader>z", "<cmd>wqa<cr>", { desc = "Quit with saving", silent = false })
@@ -33,3 +35,8 @@ keymap.set("n", "<leader>cc", "<cmd>cclose<cr>", { desc = "Close quickfix buffer
 
 -- "open" WORD under the cursor, e.g. open an url in a browser
 keymap.set("n", "<leader>gx", "<cmd>sil !open <cWORD><cr>", { desc = "Open current WORD", silent = true })
+
+-- lua
+keymap.set("n", "<leader>so", "<cmd>source %<CR>", { desc = "source current buffer" })
+keymap.set("n", "<leader>x", ":.lua<CR>", { desc = "execute line under the cursor as lua code" })
+keymap.set("v", "<leader>x", ":lua<CR>", { desc = "execute selected line as lua code" })

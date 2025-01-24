@@ -11,7 +11,7 @@ return {
 
   config = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities(capabilities))
+    -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities(capabilities))
 
     local servers = {
       -- bash/sh. requires npm installed bash-language-server
@@ -34,7 +34,9 @@ return {
       pyright = {},
 
       -- golang. requires go get golang.org/x/tools/gopls
-      gopls = {},
+      gopls = {
+        gofumpt = true,
+      },
 
       -- lua. requires https://github.com/luals/lua-language-server installed in $PATH
       lua_ls = {
@@ -94,8 +96,6 @@ return {
     end
 
     map('<leader>e', vim.diagnostic.open_float, 'Open diagnostics float')
-    map('[d', vim.diagnostic.goto_prev, 'Diagnostics go to next')
-    map(']d', vim.diagnostic.goto_next, 'Diagnostics go to previous')
     map('<leader>q', vim.diagnostic.setloclist, 'Add buffer diagnostics to the location list')
 
     -- Use LspAttach autocommand to only map the following keys
@@ -130,6 +130,12 @@ return {
         mmap('n', '<leader>f', function()
           buf.format { async = true }
         end, 'Format buffer')
+        mmap('n', ']g', function()
+          vim.diagnostic.jump({count=1, float=true})
+        end, 'Go to next error')
+        mmap('n', '[g', function()
+          vim.diagnostic.jump({count=-1, float=true})
+        end, 'Go to previous error')
       end,
     })
   end

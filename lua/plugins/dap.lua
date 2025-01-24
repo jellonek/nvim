@@ -17,7 +17,7 @@ return {
     keymap.set('n', '<F12>', function()
       dap.step_out()
     end, { desc = 'DAP Step out' })
-    keymap.set('n', '<Leader>b', function()
+    keymap.set('n', '<Leader>br', function()
       dap.toggle_breakpoint()
     end, { desc = 'DAP Toggle breakpoint' })
     keymap.set('n', '<Leader>B', function()
