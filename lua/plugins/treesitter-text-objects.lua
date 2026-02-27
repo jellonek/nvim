@@ -1,8 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   lazy = true,
+  -- enabled = false,
   config = function()
-    require("nvim-treesitter.configs").setup({
+    require("nvim-treesitter.config").setup({
       textobjects = {
         select = {
           enable = true,
@@ -95,17 +96,17 @@ return {
       },
     })
 
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+    local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
 
     -- vim way: ; goes to the direction you were moving.
-    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move, { desc = 'Repeat last move' })
-    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite,
+    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next, { desc = 'Repeat last move' })
+    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous,
       { desc = 'Repeat last move (opposite)' })
 
     -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-    vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f, { desc = 'Make f repeatable' })
-    vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F, { desc = 'Make F repeatable' })
-    vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t, { desc = 'Make t repeatable' })
-    vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T, { desc = 'Make T repeatable' })
+    vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { desc = 'Make f repeatable' })
+    vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { desc = 'Make F repeatable' })
+    vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { desc = 'Make t repeatable' })
+    vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { desc = 'Make T repeatable' })
   end,
 }
